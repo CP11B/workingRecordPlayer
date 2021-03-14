@@ -25,8 +25,13 @@
   		</div>
 	</div>
 	<div class="ui container">
-		<h1 class="ui massive center aligned header">
-			Keep all your favourite albums in one place!
+
+		<h1 class="ui icon center aligned header">
+			<i class="music icon"></i>
+			<div class="content">
+				RecordPlayer
+			  	<div class="sub header"><h2>Keep all your favourite albums in one place!</h2></div>
+			</div>
 		</h1>
 	<div class="ui four stackable cards" id="stack"></div>		
 		
@@ -39,19 +44,19 @@
 		<div>
 			<form class="ui form" id="postForm">
 				<div class="field">
-			    	<input type="text" name="title" placeholder="Title" value="" required id="createTitle">
+			    	<input type="text" name="title" placeholder="Title" value="" required id="createTitle" autocomplete="off">
 			  	</div>
 			  	<div class="field">
-			  		<input type="text" name="artist" placeholder="Artist" value="" required id="createArtist">
+			  		<input type="text" name="artist" placeholder="Artist" value="" required id="createArtist" autocomplete="off">
 			  	</div>
 			  	<div class="field">
-			  		<input type="text" name="releaseYear" placeholder="Release Year" value="" id="createReleaseYear">
+			  		<input type="number" name="releaseYear" placeholder="Release Year" value="" id="createReleaseYear" autocomplete="off">
 			  	</div>
 			    <div class="field">
-			  		<input type="text" name="imgSrc" placeholder="A link to the image address (Optional)" value="" id="createImgSrc">
+			  		<input type="text" name="imgSrc" placeholder="A link to the image address (Optional)" value="" id="createImgSrc" autocomplete="off">
 			  	</div>
 			  	<div class="field">
-			  		<input type="text" name="playSrc" placeholder="A link to hear this album on Youtube/Spotify (Optional)" value="" id="createPlaySrc">
+			  		<input type="text" name="playSrc" placeholder="A link to hear this album on Youtube/Spotify (Optional)" value="" id="createPlaySrc" autocomplete="off">
 			  	</div>
 			  	<div class="actions">
 	    			<button class="ui right floated button" type="submit" id="submit">
@@ -74,7 +79,7 @@
 			  		<input type="text" name="artist" placeholder="Artist" value="" id="editArtist">
 			  	</div>
 			  	<div class="field">
-			  		<input type="text" name="releaseYear" placeholder="Release Year" value="" id="editReleaseYear">
+			  		<input type="number" name="releaseYear" placeholder="Release Year" value="" id="editReleaseYear">
 			  	</div>
 			    <div class="field">
 			  		<input type="text" name="imgSrc" placeholder="A link to the image address (Optional)" value="" id="editImgSrc">

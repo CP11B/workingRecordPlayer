@@ -1,16 +1,15 @@
 package com.project.recordPlayer.selenium;
 
-import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -36,10 +35,13 @@ public class SeleniumAlbumTests {
 
 	@BeforeEach
 	void setup() {
-		this.driver = new ChromeDriver();
-		this.driver.manage().window().maximize();
-		this.driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS); // will wait two seconds for EVERY ELEMENT
-		this.wait = new WebDriverWait(driver, 10); // set up explicit wait -> up to 5 seconds ONLY WHEN USED
+		
+		ChromeOptions options = new ChromeOptions();
+		options.setHeadless(true);
+		this.driver = new ChromeDriver(options);
+		this.driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		this.wait = new WebDriverWait(driver, 10); 
+	
 	}
 	
 	@Test
@@ -48,12 +50,12 @@ public class SeleniumAlbumTests {
 		final String title = "Title";
 		final String artist = "Artist";
 		final String date = "2000";
-
+		// run test on a randomised port
 		this.driver.get("http://localhost:" + port);
-		
+		//bring up create form modal
 		WebElement createModalButton = this.wait.until(ExpectedConditions.presenceOfElementLocated(By.id("createButton")));
 		createModalButton.click();
-		
+		// fill out form fields
 		WebElement titleField = this.wait.until(ExpectedConditions.presenceOfElementLocated(By.id("createTitle")));
 		titleField.sendKeys(title);
 		
@@ -62,15 +64,15 @@ public class SeleniumAlbumTests {
 		
 		WebElement dateField = this.wait.until(ExpectedConditions.presenceOfElementLocated(By.id("createReleaseYear")));
 		dateField.sendKeys(date);
-				
-		WebElement saveEntryButton = this.driver.findElement(By.xpath("//*[@id=\"submit\"]"));
+		// submit
+		WebElement saveEntryButton = this.wait.until(ExpectedConditions.presenceOfElementLocated(By.id("submit")));
 		saveEntryButton.click();
 
-		WebElement creationCheck;
-		creationCheck = this.driver.findElement(By.xpath("//*[@id=\"stack\"]/div/div[2]"));
+		// check there is a created card with our given details
+		WebElement creationCheck = this.wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"stack\"]/div/div[2]")));
 		Assertions.assertTrue(creationCheck.getText().contains("Title"));		
 		Assertions.assertTrue(creationCheck.getText().contains("Artist"));	
-		this.driver.close();
+		//this.driver.close();
 	}
 	
 	@Test
@@ -94,13 +96,14 @@ public class SeleniumAlbumTests {
 		WebElement dateField = this.wait.until(ExpectedConditions.presenceOfElementLocated(By.id("createReleaseYear")));
 		dateField.sendKeys(date);
 				
-		WebElement saveEntryButton = this.driver.findElement(By.xpath("//*[@id=\"submit\"]"));
+		WebElement saveEntryButton = this.wait.until(ExpectedConditions.presenceOfElementLocated(By.id("submit")));
 		saveEntryButton.click();
-		
-		WebElement creationCheck;
-		creationCheck = this.driver.findElement(By.xpath("//*[@id=\"stack\"]/div/div[2]"));
+
+
+		WebElement creationCheck = this.wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"stack\"]/div/div[2]")));
 		Assertions.assertTrue(creationCheck.getText().contains("Title"));		
 		Assertions.assertTrue(creationCheck.getText().contains("Artist"));	
+		
 		
 //		// after card is made, edit test starts here
 	
@@ -111,23 +114,22 @@ public class SeleniumAlbumTests {
 		driver.findElement(By.id("editTitle")).clear();
 		editTitleField.sendKeys(updatedTitle);
 		
-		WebElement editArtistField = this.driver.findElement(By.id("editArtist"));
+		WebElement editArtistField = this.wait.until(ExpectedConditions.presenceOfElementLocated(By.id("editArtist")));
 		driver.findElement(By.id("editArtist")).clear();
 		editArtistField.sendKeys(updatedArtist);
 		
-		WebElement saveEditButton = this.driver.findElement(By.id("submitEditButton"));
+		WebElement saveEditButton = this.wait.until(ExpectedConditions.presenceOfElementLocated(By.id("submitEditButton")));
 		saveEditButton.click();
 		
-		WebElement editedCheck;
-		editedCheck = this.driver.findElement(By.xpath("//*[@id=\"stack\"]/div[1]/div[2]/div[1]"));
-		
+
+		WebElement editedCheck = this.wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"stack\"]/div[1]/div[2]/div[1]")));
 		try {
 			Assertions.assertTrue(editedCheck.getText().contains("Updated Title"));		
 			
 		} catch(org.openqa.selenium.StaleElementReferenceException e){
 			System.out.println(e);
 		}
-		this.driver.close();
+		//this.driver.close();
 	}
 	
 	@Test
@@ -150,22 +152,24 @@ public class SeleniumAlbumTests {
 		
 		WebElement dateField = this.wait.until(ExpectedConditions.presenceOfElementLocated(By.id("createReleaseYear")));
 		dateField.sendKeys(date);
-				
-		WebElement saveEntryButton = this.driver.findElement(By.xpath("//*[@id=\"submit\"]"));
+		
+		WebElement saveEntryButton = this.wait.until(ExpectedConditions.presenceOfElementLocated(By.id("submit")));
 		saveEntryButton.click();
 
 		WebElement creationCheck;
 		creationCheck = this.driver.findElement(By.cssSelector("#stack > div:nth-child(3) > div.extra.content > div.header.cardAlbumTitle"));
-		System.out.println("------------------------------ :D");
+
 		System.out.println(creationCheck.getText());
 		Assertions.assertTrue(creationCheck.getText().contains("Womp and the Bimbles"));		
 		
 		
 		// deletion starts here		
-		WebElement editModalButton = this.wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"stack\"]/div/div[2]/span/button")));
+		WebElement editModalButton = this.wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"stack\"]/div[3]/div[2]/span/button")));
 		editModalButton.click();
 		
-		WebElement deleteButton = this.wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"deleteButton\"]")));
+		WebElement deleteButton = this.wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#deleteButton")));
+		deleteButton.click();
+		deleteButton.click();
 		deleteButton.click();
 		
 		WebElement deletionCheck;
@@ -177,12 +181,8 @@ public class SeleniumAlbumTests {
 	    } catch (Exception e) {
 	    	assert false;
 	    }
-			
-	}
-	
-	//@AfterEach
-	//void tearDown() {
-	//	this.driver.close();
-//	}
+		//this.driver.close();	
+		
+	}	
 	
 }
