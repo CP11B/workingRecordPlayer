@@ -10,14 +10,11 @@
 </head>
 
 <body>
-	<div class="ui top fixed menu">
+	<div class="ui top fixed massive menu">
 		<div class="menu">
 			<div class="header item">
 				<i class="music icon"></i> RecordPlayer
 			</div>
-			<a class="item">
-				About
-			</a>
 		</div>
 		<div class="right menu">
 			<div class="item">
@@ -34,7 +31,7 @@
 	<div class="ui four stackable cards" id="stack"></div>		
 		
 	<!--create form modal-->
-	<div class="ui modal modalForm">
+	<div class="ui modal modalForm" id="createModalForm">
 		<i class="close icon"></i>
 		<h1 class="ui center aligned header">
 			Add a new album
@@ -42,19 +39,19 @@
 		<div>
 			<form class="ui form" id="postForm">
 				<div class="field">
-			    	<input type="text" name="title" placeholder="Title" value="" required>
+			    	<input type="text" name="title" placeholder="Title" value="" required id="createTitle">
 			  	</div>
 			  	<div class="field">
-			  		<input type="text" name="artist" placeholder="Artist" value="" required>
+			  		<input type="text" name="artist" placeholder="Artist" value="" required id="createArtist">
 			  	</div>
 			  	<div class="field">
-			  		<input type="text" name="releaseYear" placeholder="Release Year" value="">
+			  		<input type="text" name="releaseYear" placeholder="Release Year" value="" id="createReleaseYear">
 			  	</div>
 			    <div class="field">
-			  		<input type="text" name="imgSrc" placeholder="A link to the image address (Optional)" value="">
+			  		<input type="text" name="imgSrc" placeholder="A link to the image address (Optional)" value="" id="createImgSrc">
 			  	</div>
 			  	<div class="field">
-			  		<input type="text" name="playSrc" placeholder="A link to hear this album on Youtube/Spotify (Optional)" value="">
+			  		<input type="text" name="playSrc" placeholder="A link to hear this album on Youtube/Spotify (Optional)" value="" id="createPlaySrc">
 			  	</div>
 			  	<div class="actions">
 	    			<button class="ui right floated button" type="submit" id="submit">
@@ -66,7 +63,7 @@
 	</div>
   	<!--create form modal end-->
     <!--edit form modal-->
-	<div class="ui modal editForm">
+	<div class="ui modal editForm" id="editModalForm">
 		<i class="close icon"></i>
 		<div>	
 			<form class="ui form" id="changeForm">
@@ -86,7 +83,7 @@
 			  		<input type="text" name="playSrc" placeholder="A link to hear this album on Youtube/Spotify (Optional)" value="" id="editPlaySrc">
 			  	</div>
 			  	<div class="actions">
-			  		<button class="ui left floated black button" type="submit" id="deleteButton">
+			  		<button class="ui left floated black button" type="button" id="deleteButton">
 	    				Delete
 	    			</button>
 	    			<button class="ui right floated button" type="submit" id="submitEditButton">

@@ -1,6 +1,6 @@
 document.querySelector("#postForm").addEventListener("submit", postData);
 document.querySelector("#createButton").addEventListener("click", showCreate);
-document.querySelector("#changeForm").addEventListener("click", editData);
+document.querySelector("#changeForm").addEventListener("submit", editData);
 document.querySelector("#deleteButton").addEventListener("click", deleteAlbum);
 
 let currentId = 0;
@@ -14,6 +14,7 @@ function getAlbums() {
 	.then(res => {
 		const albums = res.data;
 		albums.forEach(album => {
+			// replace img with default
 			let imgSrc = "";
 			let dfltImgSrc = "turntabled1.jpg";
 			if (album.imgSrc == "") {
@@ -24,18 +25,27 @@ function getAlbums() {
 			}
 			let html = document.createElement("div");
 			html.setAttribute("class", "card");
-			html.innerHTML = '<div class="image"><img src="'+ imgSrc +'"></div><div class="extra content"><div class="header">'+ album.title +'</div><div class="meta">Released in '+ album.releaseYear +'</div><div class="description">'+ album.artist +'</div><span class="right floated"><button class="ui icon button edit" onclick="yeet('+ album.id +')"><i class="pencil alternate icon"></i></button><a class="ui icon button playBtn" href="'+ album.playSrc +'"target="_blank"><i class="play icon"></i></a></span></div>';
+			html.innerHTML = '<div class="image"><img src="'+ imgSrc +'"></div><div class="extra content"><div class="header cardAlbumTitle">'+ album.title +'</div><div class="meta">Released in '+ album.releaseYear +'</div><div class="description">'+ album.artist +'</div><span class="right floated"><button class="ui icon button edit" onclick="yeet('+ album.id +')"><i class="pencil alternate icon"></i></button><a class="ui icon button playBtn" href="'+ album.playSrc +'"target="_blank"><i class="play icon"></i></a></span></div>';
 			stack.appendChild(html);				
 		});
 	}).catch(err => console.error(err));
 }
 
 function showCreate(){
+
+	// Reset form here
+	document.getElementById("createTitle").value = "";
+	document.getElementById("createArtist").value = "";
+	document.getElementById("createReleaseYear").value = "";
+	document.getElementById("createImgSrc").value = "";
+	document.getElementById("createPlaySrc").value = "";
+	
 	$(".modalForm").modal("show");
 }
 
 // show edit form modal on button onclick 
 function yeet(id){
+
 	currentId = id;
 	$(".editForm").modal("show");
 	axios.get("/album/" + currentId)
@@ -49,7 +59,9 @@ function yeet(id){
 	});
 }	
 
-function postData() {
+function postData(postData) {
+	postData.preventDefault(); // Stops the form from actually submitting
+	console.log("Submitted!!!!");
 	const data = {
 		title: this.title.value,
 		artist: this.artist.value,
@@ -65,9 +77,13 @@ function postData() {
 	})
 	.then(() => getAlbums())
 	.catch(err => console.error(err));
-	}
+	// Close modal
+	console.log("Close the add modal");
+	$('#createModalForm').modal('hide');
+}
 
-function editData() {
+function editData(editFormObj) {
+	editFormObj.preventDefault(); // Stops the form from actually submitting
 	let data = {
 		title: this.title.value,
 		artist: this.artist.value,
@@ -85,12 +101,15 @@ function editData() {
 	})
 	.then(() => getAlbums())
 	.catch(err => console.error(err));
+	// Close modal
+	console.log("Close the edit modal");
+	$('#editModalForm').modal('hide');
 }
-
 
 function deleteAlbum() {
 	console.log(currentId)
 	axios.delete("/album/" + currentId)
 		.then(() => getAlbums())
 		.catch(err => console.error(err));
+	$('#editModalForm').modal('hide');
 };
