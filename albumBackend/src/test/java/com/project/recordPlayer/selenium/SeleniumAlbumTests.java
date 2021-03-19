@@ -172,16 +172,13 @@ public class SeleniumAlbumTests {
 		deleteButton.click();
 		deleteButton.click();
 		
-		WebElement deletionCheck;
-		
 		try {
-			deletionCheck = this.driver.findElement(By.xpath("/html/body/div[2]/div[1]/div[2]/div[2]/div[1]"));
 	    } catch (org.openqa.selenium.NoSuchElementException e) {
 	    	assert true;
 	    } catch (Exception e) {
 	    	assert false;
 	    }
-		//this.driver.close();	
+		this.driver.close();	
 		
 	}	
 	

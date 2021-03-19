@@ -1,0 +1,4 @@
+com\project\recordPlayer\selenium\SeleniumAlbumTests.class
+com\project\recordPlayer\rest\AlbumControllerIntegrationTest.class
+com\project\recordPlayer\RecordPlayerApplicationTests.class
+com\project\recordPlayer\service\AlbumProjectDBUnitTest.class

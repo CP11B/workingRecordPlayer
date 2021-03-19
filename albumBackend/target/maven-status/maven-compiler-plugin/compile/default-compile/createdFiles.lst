@@ -1,0 +1,7 @@
+com\project\recordPlayer\service\AlbumService.class
+com\project\recordPlayer\service\AlbumServiceDB.class
+com\project\recordPlayer\RecordPlayerApplication.class
+com\project\recordPlayer\repos\AlbumRepo.class
+com\project\recordPlayer\domain\Album.class
+com\project\recordPlayer\rest\AlbumController.class
+com\project\recordPlayer\service\AlbumServiceList.class
